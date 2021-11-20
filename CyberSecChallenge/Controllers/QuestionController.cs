@@ -1,27 +1,31 @@
 ﻿using System;
 using System.Collections;
+using CyberSecChallenge.Dal;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CyberSecChallenge.Entities;
 
-namespace CyberSecChallenge
+namespace CyberSecChallenge.Controllers
 {
   class QuestionController
   {
     QuestionDal questionDal = new QuestionDal();
-    public void AddQuestion(Question question)
+
+    public int AddQuestion(Question question)
     {
       if (question == null)
       {
-        return;
+        return 0;
       }
-
       var id = questionDal.InsertEntity(question);
       if (id > 0)
       {
-        Console.WriteLine(id + "Foi inserido com sucesso!");
+        return id;
       }
+      return 0;
     }
+
   }
 }

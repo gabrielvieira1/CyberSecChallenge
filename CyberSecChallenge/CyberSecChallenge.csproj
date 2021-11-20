@@ -44,20 +44,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="QuestionDal.cs" />
-    <Compile Include="QuestionController.cs" />
-    <Compile Include="ChallengeDal.cs" />
-    <Compile Include="ChallengeController.cs" />
-    <Compile Include="Question.cs" />
-    <Compile Include="Answers.cs" />
-    <Compile Include="Challenge.cs" />
+    <Compile Include="Controllers\AnswerController.cs" />
+    <Compile Include="Dal\AnswerDal.cs" />
+    <Compile Include="Dal\QuestionDal.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
+    <Compile Include="Dal\ChallengeDal.cs" />
+    <Compile Include="Controllers\ChallengeController.cs" />
+    <Compile Include="Entities\Question.cs" />
+    <Compile Include="Entities\Answer.cs" />
+    <Compile Include="Entities\Challenge.cs" />
     <Compile Include="ControlConnectionString.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Entities\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

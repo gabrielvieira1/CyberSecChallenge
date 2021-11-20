@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CyberSecChallenge.Entities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CyberSecChallenge
+namespace CyberSecChallenge.Dal
 {
   class QuestionDal
   {
@@ -15,21 +16,18 @@ namespace CyberSecChallenge
     {
       string queryString = RetornarStringConexao();
 
-
-      var query = "insert into Question (Title, Active) values ('@Title', 1)";
+      var query = $"insert into Question (Title) values ('{question.Title}'); select SCOPE_IDENTITY();";
 
       using (SqlConnection con = new SqlConnection(queryString))
         try
         {
           SqlCommand cmd = new SqlCommand(query, con);
 
-          cmd.Parameters.AddWithValue("@Title", question.Title);
-
           con.Open();
 
-          int modified = Convert.ToInt32(cmd.ExecuteScalar());
-          Console.WriteLine(modified);
-          return modified;
+          int ret = Convert.ToInt32(cmd.ExecuteScalar());
+
+          return ret;
         }
         catch (Exception e)
         {
@@ -45,12 +43,6 @@ namespace CyberSecChallenge
     private string RetornarStringConexao()
     {
       return ControlConnectionString.Retornar();
-    }
-
-    private void IncluirParametros(SqlCommand cmd, Question question)
-    {
-      cmd.Parameters.AddWithValue("@Title", question.Title);
-      cmd.Parameters.AddWithValue("@Active", 1);
     }
   }
 }

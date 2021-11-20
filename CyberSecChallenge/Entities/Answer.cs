@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace CyberSecChallenge
 {
-  class Answers
+  class Answer
   {
-    private int Id { get; set; }
-    public string Option { get; set; }
+    public int Id { get; set; }
+    public string Alternative { get; set; }
+    public int IdQuestion { get; set; }
+    public bool RightAnswer { get; set; }
     public bool Active { get; set; }
 
   }
