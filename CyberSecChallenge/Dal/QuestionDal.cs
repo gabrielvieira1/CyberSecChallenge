@@ -10,39 +10,46 @@ using System.Threading.Tasks;
 
 namespace CyberSecChallenge.Dal
 {
-  class QuestionDal
+  class QuestionDal : DalGeneric
   {
-    public int InsertEntity(Question question)
-    {
-      string queryString = RetornarStringConexao();
 
+    public int InsertQuestion(Question question)
+    {
       var query = $"insert into Question (Title) values ('{question.Title}'); select SCOPE_IDENTITY();";
 
-      using (SqlConnection con = new SqlConnection(queryString))
-        try
-        {
-          SqlCommand cmd = new SqlCommand(query, con);
-
-          con.Open();
-
-          int ret = Convert.ToInt32(cmd.ExecuteScalar());
-
-          return ret;
-        }
-        catch (Exception e)
-        {
-          Console.WriteLine(e);
-          throw;
-        }
-        finally
-        {
-          con.Close();
-        }
+      return InsertEntity(query);
     }
 
-    private string RetornarStringConexao()
+    public IList<Question> GetQuestion()
     {
-      return ControlConnectionString.Retornar();
+      List<Question> questions = new List<Question>();
+
+      var query = $"select top 10 * from Question";
+
+      SqlConnection con = new SqlConnection(ControlConnectionString.Retornar());
+      
+      try
+      {
+        con.Open();
+        SqlCommand cmd = new SqlCommand(query, con);
+        SqlDataReader data = cmd.ExecuteReader();
+
+
+        while (data.Read())
+        {
+          Question question = new Question();
+
+        }
+
+        data.Close();
+
+      }
+      finally
+      {
+        con.Close();
+      }
+
+      return questions;
     }
   }
 }

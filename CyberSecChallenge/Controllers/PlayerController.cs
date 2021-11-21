@@ -9,17 +9,23 @@ using CyberSecChallenge.Entities;
 
 namespace CyberSecChallenge.Controllers
 {
-  class AnswerController
+  class PlayerController
   {
-    AnswerDal answerDal = new AnswerDal();
+    PlayerDal playerDal = new PlayerDal();
 
-    public void AddAnswer(IList<Answer> answer)
+    public int AddPlayer(Player player)
     {
-      if (answer == null)
+      if (player == null)
       {
-        return;
+        return 0;
       }
-      answerDal.InsertAnswer(answer);
+      var id = playerDal.InsertPlayer(player);
+
+      if (id > 0)
+      {
+        return id;
+      }
+      return 0;
     }
   }
 }

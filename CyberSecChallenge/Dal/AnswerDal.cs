@@ -10,45 +10,20 @@ using System.Threading.Tasks;
 
 namespace CyberSecChallenge.Dal
 {
-  class AnswerDal
+  class AnswerDal : DalGeneric
   {
-    public void InsertEntity(IList<Answer> answer)
+    public void InsertAnswer(IList<Answer> answer)
     {
-      string queryString = RetornarStringConexao();
 
-      List<string> query = new List<string>();
+      StringBuilder query = new StringBuilder();
 
       foreach (var item in answer)
       {
-        query.Add($"insert into Answer (Alternative, IdQuestion, RightAnswer) values ('{item.Alternative}', {item.IdQuestion}, {Convert.ToInt32(item.RightAnswer)});");
-
+        query.Append($"insert into Answer (Alternative, IdQuestion, RightAnswer) values ('{item.Alternative}', {item.IdQuestion}, {Convert.ToInt32(item.RightAnswer)});");
       }
 
-      using (SqlConnection con = new SqlConnection(queryString))
-        try
-        {
-          foreach (var item in query)
-          {
-            SqlCommand cmd = new SqlCommand(item, con);
-            con.Open();
-            cmd.ExecuteScalar();
-          }
-        }
-        catch (Exception e)
-        {
-          Console.WriteLine(e);
-          throw;
-        }
-        finally
-        {
-          con.Close();
-        }
+      InsertEntity(query.ToString());
 
-    }
-
-    private string RetornarStringConexao()
-    {
-      return ControlConnectionString.Retornar();
     }
   }
 }

@@ -19,12 +19,20 @@ namespace CyberSecChallenge.Controllers
       {
         return 0;
       }
-      var id = questionDal.InsertEntity(question);
+      var id = questionDal.InsertQuestion(question);
       if (id > 0)
       {
         return id;
       }
       return 0;
+    }
+
+
+    public IList<Question> GetQuestions()
+    {
+      var lst = questionDal.GetQuestion();
+
+      return lst;
     }
 
   }

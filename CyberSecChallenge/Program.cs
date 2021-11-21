@@ -46,7 +46,34 @@ namespace CyberSecChallenge
 
     private static void InciarDesafio()
     {
-      throw new NotImplementedException();
+      ChallengeController challengeController = new ChallengeController();
+      QuestionController questionController = new QuestionController();
+      PlayerController playerController = new PlayerController();
+      Player player = new Player();
+      var option = 0;
+
+      do
+      {
+
+        Console.WriteLine("Digite o seu Nome:");
+        player.Nome = Console.ReadLine();
+
+        Console.WriteLine("Digite o seu Email:");
+        player.Email = Console.ReadLine();
+        int idPlayer = playerController.AddPlayer(player);
+
+        Console.Clear();
+
+        var questions = questionController.GetQuestions();
+
+        foreach (var item in questions)
+        {
+
+        }
+
+
+      } while (true);
+
     }
 
     private static void AddQuestions()
