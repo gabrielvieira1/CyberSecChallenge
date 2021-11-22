@@ -20,33 +20,49 @@ namespace CyberSecChallenge.Dal
       return InsertEntity(query);
     }
 
-    public IList<Question> GetQuestion()
+    public List<Question> GetQuestion()
     {
-      List<Question> questions = new List<Question>();
+      var questions = new List<Question>();
+      var query = $"select top 10 * from Question where Active = 1;";
 
-      var query = $"select top 10 * from Question";
-
-      SqlConnection con = new SqlConnection(ControlConnectionString.Retornar());
-      
-      try
+      GetEntity(query, responseSQL =>
       {
-        con.Open();
-        SqlCommand cmd = new SqlCommand(query, con);
-        SqlDataReader data = cmd.ExecuteReader();
-
-
-        while (data.Read())
+        while (responseSQL.Read())
         {
-          Question question = new Question();
-
+          questions.Add(new Question
+          {
+            Id = (int)responseSQL["Id"],
+            Title = (string)responseSQL["Title"]
+          });
         }
+      });
 
-        data.Close();
+      var answers = new List<Answer>();
 
-      }
-      finally
+      for (int i = 0; i < questions.Count(); i++)
       {
-        con.Close();
+        query = $"select * from Answer a where a.IdQuestion = {questions[i].Id};";
+
+        GetEntity(query, responseSQL =>
+        {
+          while (responseSQL.Read())
+          {
+            answers.Add(new Answer
+            {
+              Id = (int)responseSQL["Id"],
+              Alternative = (string)responseSQL["Alternative"],
+              IdQuestion = (int)responseSQL["IdQuestion"],
+              RightAnswer = (bool)responseSQL["RightAnswer"],
+              Active = (bool)responseSQL["Active"]
+            });
+          }
+        });
+
+        questions[i].Answers = new List<Answer>();
+
+        questions[i].Answers.AddRange(answers);
+
+        answers.Clear();
       }
 
       return questions;

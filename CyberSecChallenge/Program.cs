@@ -25,6 +25,7 @@ namespace CyberSecChallenge
         Console.WriteLine("MENU:\n");
         Console.WriteLine("1 - Iniciar Desafio");
         Console.WriteLine("2 - Adcionar Pergunta");
+        Console.WriteLine("3 - Ver o Rank");
         Console.WriteLine("0 - Encerrar programa");
         opcao = Convert.ToInt32(Console.ReadLine());
 
@@ -40,8 +41,40 @@ namespace CyberSecChallenge
           AddQuestions();
         }
 
+        if (opcao == 3)
+        {
+          Console.Clear();
+          VerRank();
+        }
+
+        if (opcao == 0)
+        {
+          Environment.Exit(0);
+        }
+
       } while (opcao != 0);
 
+    }
+
+    private static void VerRank()
+    {
+      ChallengeController challengeController = new ChallengeController();
+      var option = 0;
+
+      do
+      {
+        var rank = challengeController.ListRank();
+
+        foreach (var item in rank)
+        {
+          Console.WriteLine($"{item.Player.Nome} - {item.Player.Email}: {item.Score}\n");
+        }
+        Console.WriteLine("Digite 0 para sair");
+        option = Convert.ToInt32(Console.ReadLine());
+
+        Console.Clear();
+
+      } while (option != 0);
     }
 
     private static void InciarDesafio()
@@ -49,8 +82,11 @@ namespace CyberSecChallenge
       ChallengeController challengeController = new ChallengeController();
       QuestionController questionController = new QuestionController();
       PlayerController playerController = new PlayerController();
+      List<Answer> responseList = new List<Answer>();
       Player player = new Player();
+      Challenge challenge = new Challenge();
       var option = 0;
+      var response = 0;
 
       do
       {
@@ -66,13 +102,39 @@ namespace CyberSecChallenge
 
         var questions = questionController.GetQuestions();
 
-        foreach (var item in questions)
+        foreach (var question in questions)
         {
+          Console.WriteLine(question.Title);
 
+          for (int i = 0; i < question.Answers.Count(); i++)
+          {
+            Console.WriteLine($"{(i + 1)} - {question.Answers[i].Alternative}");
+          }
+          response = Convert.ToInt32(Console.ReadLine());
+
+          var selectedAnswer = question.Answers[response - 1];
+
+          responseList.Add(selectedAnswer);
+
+          Console.Clear();
         }
+        var score = challengeController.CheckCorrectAnswer(responseList);
 
+        Console.WriteLine($"Sua pontuação foi de {score} pontos");
 
-      } while (true);
+        challenge.IdPlayer = idPlayer;
+        challenge.Score = score;
+
+        challengeController.SaveChallenge(challenge);
+
+        Console.WriteLine("Deseja tentar novamente?");
+        Console.WriteLine("1 - Sim");
+        Console.WriteLine("2 - Não");
+        option = Convert.ToInt32(Console.ReadLine());
+
+        Console.Clear();
+
+      } while (option != 2);
 
     }
 
@@ -135,7 +197,7 @@ namespace CyberSecChallenge
 
         Console.Clear();
 
-      } while (option != 1);
+      } while (option != 2);
 
     }
   }

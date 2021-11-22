@@ -35,23 +35,19 @@ namespace CyberSecChallenge.Dal
         }
     }
 
-    public void GetEntity(string query, Action<SqlDataReader> treatmentQuery)
+    protected void GetEntity(string query, Action<SqlDataReader> treatmentQuery)
     {
-
       try
       {
         con.Open();
         SqlCommand cmd = new SqlCommand(query, con);
-        SqlDataReader data = cmd.ExecuteReader();
-        treatmentQuery(data);
-        data.Close();
-
+        SqlDataReader dr = cmd.ExecuteReader();
+        treatmentQuery(dr);
       }
       finally
       {
         con.Close();
       }
-
     }
   }
 }

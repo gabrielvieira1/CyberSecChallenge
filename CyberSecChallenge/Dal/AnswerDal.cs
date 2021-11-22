@@ -23,7 +23,6 @@ namespace CyberSecChallenge.Dal
       }
 
       InsertEntity(query.ToString());
-
     }
   }
 }
