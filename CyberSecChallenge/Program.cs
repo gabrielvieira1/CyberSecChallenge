@@ -104,7 +104,7 @@ namespace CyberSecChallenge
 
         foreach (var question in questions)
         {
-          Console.WriteLine(question.Title);
+          Console.WriteLine($"{question.Id}) {question.Title}");
 
           for (int i = 0; i < question.Answers.Count(); i++)
           {
