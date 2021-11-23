@@ -19,9 +19,9 @@ $ git clone https://github.com/gabrielvieira1/CyberSecChallenge.git
 # Go into the repository folder and install dependencies
 $ cd CyberSecChallenge
 
-# Open with visual studio
+# Open CyberSecChallenge.sln with visual studio
 
-# Configure the String appsettings.json with the name of your database
+# Configure the connectionString in App.config with the name of your database
 
 # run
 ```
