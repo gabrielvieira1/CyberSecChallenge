@@ -19,7 +19,7 @@ namespace CyberSecChallenge
 
     public static void Menu()
     {
-      var opcao = 0;
+      var option = 0;
       do
       {
         Console.WriteLine("MENU:\n");
@@ -27,76 +27,47 @@ namespace CyberSecChallenge
         Console.WriteLine("2 - Adcionar Pergunta");
         Console.WriteLine("3 - Ver o Rank");
         Console.WriteLine("0 - Encerrar programa");
-        opcao = Convert.ToInt32(Console.ReadLine());
+        option = Convert.ToInt32(Console.ReadLine());
 
-        if (opcao == 1)
+        if (option == 1)
         {
           Console.Clear();
-          InciarDesafio();
+          StartChallenge();
         }
 
-        if (opcao == 2)
+        if (option == 2)
         {
           Console.Clear();
           AddQuestions();
         }
 
-        if (opcao == 3)
+        if (option == 3)
         {
           Console.Clear();
-          VerRank();
+          Rank();
         }
 
-        if (opcao == 0)
+        if (option == 0)
         {
           Environment.Exit(0);
         }
 
-      } while (opcao != 0);
-
-    }
-
-    private static void VerRank()
-    {
-      ChallengeController challengeController = new ChallengeController();
-      var option = 0;
-
-      do
-      {
-        var rank = challengeController.ListRank();
-
-        foreach (var item in rank)
-        {
-          Console.WriteLine($"{item.Player.Nome} - {item.Player.Email}: {item.Score}\n");
-        }
-        Console.WriteLine("Digite 0 para sair");
-        option = Convert.ToInt32(Console.ReadLine());
-
-        Console.Clear();
-
       } while (option != 0);
+
     }
 
-    private static void InciarDesafio()
+    private static void StartChallenge()
     {
       ChallengeController challengeController = new ChallengeController();
       QuestionController questionController = new QuestionController();
-      PlayerController playerController = new PlayerController();
       List<Answer> responseList = new List<Answer>();
-      Player player = new Player();
       Challenge challenge = new Challenge();
       var option = 0;
       var response = 0;
 
       do
       {
-
-        Console.WriteLine("Digite o seu Nome:");
-        player.Nome = Console.ReadLine();
-
-        Console.WriteLine("Digite o seu Email:");
-        player.Email = Console.ReadLine();
-        int idPlayer = playerController.AddPlayer(player);
+        int idPlayer = AddPlayer();
 
         Console.Clear();
 
@@ -121,6 +92,7 @@ namespace CyberSecChallenge
         var score = challengeController.CheckCorrectAnswer(responseList);
 
         Console.WriteLine($"Sua pontuação foi de {score} pontos");
+        Console.WriteLine();
 
         challenge.IdPlayer = idPlayer;
         challenge.Score = score;
@@ -136,6 +108,20 @@ namespace CyberSecChallenge
 
       } while (option != 2);
 
+    }
+
+    private static int AddPlayer()
+    {
+      PlayerController playerController = new PlayerController();
+      Player player = new Player();
+
+      Console.WriteLine("Digite o seu Nome:");
+      player.Nome = Console.ReadLine();
+
+      Console.WriteLine("Digite o seu Email:");
+      player.Email = Console.ReadLine();
+
+      return playerController.AddPlayer(player);
     }
 
     private static void AddQuestions()
@@ -199,6 +185,27 @@ namespace CyberSecChallenge
 
       } while (option != 2);
 
+    }
+
+    private static void Rank()
+    {
+      ChallengeController challengeController = new ChallengeController();
+      var option = 0;
+
+      do
+      {
+        var rank = challengeController.ListRank();
+
+        foreach (var item in rank)
+        {
+          Console.WriteLine($"{item.Player.Nome} - {item.Player.Email}: {item.Score}\n");
+        }
+        Console.WriteLine("Digite 0 para sair");
+        option = Convert.ToInt32(Console.ReadLine());
+
+        Console.Clear();
+
+      } while (option != 0);
     }
   }
 }
