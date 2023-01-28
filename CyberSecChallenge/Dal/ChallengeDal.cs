@@ -20,7 +20,7 @@ namespace CyberSecChallenge.Dal
     public List<Challenge> GetChallenge()
     {
       var challenge = new List<Challenge>();
-      var query = "select top 10 * from Challenge order by score desc;";
+      var query = "select top 11 * from Challenge order by score desc;";
 
       GetEntity(query, responseSQL =>
       {

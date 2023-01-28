@@ -23,7 +23,7 @@ namespace CyberSecChallenge.Dal
     public List<Question> GetQuestion()
     {
       var questions = new List<Question>();
-      var query = $"select top 10 * from Question where Active = 1;";
+      var query = $"select top 11 * from Question where Active = 1 order by id desc;";
 
       GetEntity(query, responseSQL =>
       {
